@@ -17,6 +17,19 @@ public class QuoteBuilder {
 	 * 
 	 * Returns the list of Asks for a symbol with multiple unit prices for the same quantity 
 	 * 
+	 * @param quote
+	 * @return list of asks
+	 */
+	public static List<Quote> askOf(final Quote quote) {
+		List<Quote> asks = new ArrayList<Quote>();
+		asks.add(quote);
+		return asks;
+	}
+	
+	/**
+	 * 
+	 * Returns the list of Asks for a symbol with multiple unit prices for the same quantity 
+	 * 
 	 * @param symbol
 	 * @param quantity
 	 * @param prices
@@ -26,6 +39,19 @@ public class QuoteBuilder {
 		List<Quote> asks = new ArrayList<Quote>();
 		DoubleStream.of(prices).forEach((price) -> asks.add(new Ask(symbol, quantity, price)));
 		return asks;
+	}
+	
+	/**
+	 * 
+	 * Returns the list of Bids for a symbol with multiple unit prices for the same quantity
+	 * 
+	 * @param quote
+	 * @return list of bids
+	 */
+	public static List<Quote> bidOf(final Quote quote) {
+		List<Quote> bids = new ArrayList<Quote>();
+		bids.add(quote);
+		return bids;
 	}
 	
 	/**

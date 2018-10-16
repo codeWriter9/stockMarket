@@ -1,5 +1,6 @@
 package com.trading.stockMarket.exchange;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -14,6 +15,7 @@ public abstract class Quote {
 	protected String symbol;
 	protected Integer quantity;
 	protected Double price;
+	private String quoteId;
 
 	/**
 	 * 
@@ -26,6 +28,7 @@ public abstract class Quote {
 		this.symbol = symbol;
 		this.quantity = quantity;
 		this.price = price;
+		this.quoteId = LocalDateTime.now().toString();
 	}
 
 	public abstract BuySell buySell();
@@ -35,7 +38,7 @@ public abstract class Quote {
 	 * 
 	 * @return
 	 */
-	public String getSymbol() {
+	public synchronized String getSymbol() {
 		return symbol;
 	}
 
@@ -44,7 +47,7 @@ public abstract class Quote {
 	 * 
 	 * @param symbol
 	 */
-	public void setSymbol(String symbol) {
+	public synchronized void setSymbol(String symbol) {
 		this.symbol = symbol;
 	}
 
@@ -54,7 +57,7 @@ public abstract class Quote {
 	 * 
 	 * @return
 	 */
-	public Integer getQuantity() {
+	public synchronized Integer getQuantity() {
 		return quantity;
 	}
 
@@ -64,7 +67,7 @@ public abstract class Quote {
 	 * 
 	 * @param quantity
 	 */
-	public void setQuantity(Integer quantity) {
+	public synchronized void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 
@@ -74,7 +77,7 @@ public abstract class Quote {
 	 * 
 	 * @return
 	 */
-	public Double getPrice() {
+	public synchronized Double getPrice() {
 		return price;
 	}
 
@@ -85,7 +88,7 @@ public abstract class Quote {
 	 * 
 	 * @param price
 	 */
-	public void setPrice(Double price) {
+	public synchronized void setPrice(Double price) {
 		this.price = price;
 	}
 
@@ -99,9 +102,10 @@ public abstract class Quote {
 		if (obj instanceof Quote) {
 			Quote otherQuote = (Quote) obj;
 			return symbol.equals(otherQuote.symbol) && buySell().equals(otherQuote.buySell())
-					&& quantity.equals(otherQuote.quantity) && price.equals(otherQuote.price);
+					&& quantity.equals(otherQuote.quantity) && price.equals(otherQuote.price)
+					&& quoteId.equals(otherQuote.quoteId);
 		}
-		return super.equals(obj);
+		return false;
 	}
 
 	/**
@@ -111,7 +115,7 @@ public abstract class Quote {
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(symbol, quantity, price, buySell());
+		return Objects.hash(quoteId, symbol, quantity, price, buySell());
 	}
 
 	/**
@@ -121,7 +125,6 @@ public abstract class Quote {
 	 */
 	@Override
 	public String toString() {
-
-		return "[" + buySell() + "  " + quantity + "  " + symbol + " @ " + price + " ]";
+		return "[" + buySell() + "  " + quantity + "  " + symbol + " @ " + price + " on " + quoteId +" ]";
 	}
 }

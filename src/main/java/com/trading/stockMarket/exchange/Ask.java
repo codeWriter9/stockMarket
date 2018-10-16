@@ -16,6 +16,7 @@ public class Ask extends Quote {
 	/**
 	 * 
 	 * 
+	 * @return BuySell.SELL
 	 */
 	@Override
 	public BuySell buySell() {

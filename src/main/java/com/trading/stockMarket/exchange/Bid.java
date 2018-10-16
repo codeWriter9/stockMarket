@@ -23,6 +23,7 @@ public class Bid extends Quote {
 	/**
 	 * 
 	 * 
+	 * @return BuySell.BUY
 	 */
 	@Override
 	public BuySell buySell() {
