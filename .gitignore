@@ -3,6 +3,11 @@
 *.class
 
 
+# Test files
+
+*Test*.xml
+*.lst
+
 
 # Log file
 
