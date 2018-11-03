@@ -11,7 +11,7 @@ import java.util.stream.DoubleStream;
  * @author Sanjay Ghosh
  *
  */
-public class QuoteBuilder {
+public class QuoteFactory {
 
 	/**
 	 * 

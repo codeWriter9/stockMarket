@@ -5,11 +5,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.junit.Test;
 
 public class QuoteTest {
+	
+	
 
 	/**
 	 * 
@@ -17,9 +18,11 @@ public class QuoteTest {
 	 */
 	public static void sleepSafely() {
 		try {
+			System.out.println(" Sleep Safely for 1 sec: ");
 			sleep(1000);
 		} catch (Exception e) {
-			System.err.println(e.getCause());
+			System.err.println(" Thrown from Sleep Safely: ");
+			System.err.println(" Thrown from Sleep Safely: " + e.getCause());
 		}
 	}
 
@@ -29,13 +32,8 @@ public class QuoteTest {
 	 */
 	@Test
 	public void checkQuoteEquality() {
-		List<Quote> asks = QuoteBuilder.askOf("AAA", 1, 10.0, 10.0, 10.0);
-		asks.forEach(new Consumer<Quote>() {
-			@Override
-			public void accept(Quote quote) {
-				assert (asks.get(0).equals(quote));
-			}
-		});
+		List<Quote> asks = QuoteFactory.askOf("AAA", 1, 10.0, 10.0, 10.0);
+		asks.forEach(quote -> assertTrue(asks.get(0).equals(quote)));
 	}
 
 	/**
@@ -53,19 +51,30 @@ public class QuoteTest {
 		assertFalse(q1.equals(q2));
 		assertFalse(q2.equals(q3));
 	}
-	
-	
+
 	/**
 	 * Checks whether quotes are unequal to each other *
 	 * 
 	 */
 	@Test
 	public void checkOneQuoteFromList() {
-		List<Quote> asks = QuoteBuilder.askOf("AAA", 1, 10.0, 10.0, 10.0);
+		List<Quote> asks = QuoteFactory.askOf("AAA", 1, 10.0, 10.0, 10.0);
 		Quote q1 = asks.get(0);
 		sleepSafely();
-		Quote q2 = new Ask("AAA", 1, 10.0);				
+		Quote q2 = new Ask("AAA", 1, 10.0);
 		assertTrue(asks.contains(q1));
 		assertFalse(asks.contains(q2));
 	}
+	
+	/**
+	 * Checks whether quotes are unequal to each other *
+	 * 
+	 */
+	@Test
+	public void checkAskAndBid() {
+		List<Quote> asks = QuoteFactory.askOf("AAA", 1, 10.0);
+		List<Quote> bids = QuoteFactory.bidOf("AAA", 1, 10.0);
+		assertTrue(asks.size() == bids.size());		
+	}
+	
 }

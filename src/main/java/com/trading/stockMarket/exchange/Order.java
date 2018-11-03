@@ -1,12 +1,14 @@
 package com.trading.stockMarket.exchange;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * 
@@ -16,10 +18,9 @@ import java.util.function.Consumer;
  */
 public class Order {
 
-	private ConcurrentMap<String, List<Quote>> orders;// order id to Quote map
-	// if Trader is putting it is a broker id to List of Quote Mapping
-	// else it is a symbol to quote mapping
+	private ConcurrentMap<String, List<Quote>> orders;// symbol to quote mapping
 	private Lock lock;
+	private String brokerId;
 
 	/**
 	 * 
@@ -30,6 +31,66 @@ public class Order {
 		orders = new ConcurrentHashMap<>();
 		lock = new ReentrantLock();
 	}
+	
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 */
+	public Order(String brokerId) {
+		orders = new ConcurrentHashMap<>();
+		lock = new ReentrantLock();
+		this.brokerId = brokerId;
+	}
+	
+	/**
+	 * 
+	 * Returns the list of quotes for symbol
+	 * 
+	 * @param symbol
+	 * @return
+	 */
+	public List<Quote> quotesForSymbol(String symbol) {
+		return orders.get(symbol);
+	}
+	
+	/**
+	 * 
+	 * Returns the Set of symbols
+	 * 
+	 * @return Set<String>
+	 */
+	public Set<String> symbols() {
+		return orders.keySet();
+	}
+	 
+	/**
+	 * 
+	 * Returns the list of orders
+	 * 
+	 * @return ConcurrentMap<String, List<Quote>>
+	 */
+	public ConcurrentMap<String, List<Quote>> orders() {
+		return orders;
+	}
+	
+	/**
+	 * 
+	 * Tests the Quotes with the predicate
+	 * 
+	 * @param quotePredicate
+	 * @return True if all the quotes pass the test for a symbol False otherwise
+	 */
+	public boolean checkQuotes(String symbol, Predicate<Quote> quotePredicate) {		
+		for(Quote quote : orders.get(symbol)) {
+			if(!quotePredicate.test(quote)) return false;
+		}
+		return true;
+	}
+	
+	
+	
 
 	/**
 	 * 
@@ -42,7 +103,7 @@ public class Order {
 		if (quote instanceof Ask) {
 			if (orders.get(order) == null) {
 				synchronized (lock) {
-					orders.put(order, QuoteBuilder.askOf(quote));
+					orders.put(order, QuoteFactory.askOf(quote));
 				}
 			} else {
 				List<Quote> asks = orders.get(order);
@@ -54,7 +115,7 @@ public class Order {
 		} else {
 			if (orders.get(order) == null) {
 				synchronized (lock) {
-					orders.put(order, QuoteBuilder.bidOf(quote));
+					orders.put(order, QuoteFactory.bidOf(quote));
 				}
 			} else {
 				List<Quote> bids = orders.get(order);

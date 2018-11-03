@@ -22,8 +22,8 @@ public class BestProfitTest {
 	 */
 	@Test
 	public void profitFromHistoricalData() {
-		List<Quote> asks = QuoteBuilder.askOf("AAA", 1, 10.0, 11.0, 12.0, 9.0, 10.2, 11.2);
-		List<Quote> bids = QuoteBuilder.bidOf("AAA", 1, 9.5, 10.5, 11.5, 8.5, 9.8, 10.8);
+		List<Quote> asks = QuoteFactory.askOf("AAA", 1, 10.0, 11.0, 12.0, 9.0, 10.2, 11.2);
+		List<Quote> bids = QuoteFactory.bidOf("AAA", 1, 9.5, 10.5, 11.5, 8.5, 9.8, 10.8);
 
 		int buyDate = 0;
 		int sellDate = 0;
