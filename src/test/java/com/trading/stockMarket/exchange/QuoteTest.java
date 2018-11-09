@@ -1,30 +1,16 @@
 package com.trading.stockMarket.exchange;
 
-import static java.lang.Thread.sleep;
+import static com.trading.stockMarket.exchange.Utils.sleepSafely;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.concurrent.atomic.LongAdder;
 
 import org.junit.Test;
 
 public class QuoteTest {
 	
-	
-
-	/**
-	 * 
-	 * 
-	 */
-	public static void sleepSafely() {
-		try {
-			System.out.println(" Sleep Safely for 1 sec: ");
-			sleep(1000);
-		} catch (Exception e) {
-			System.err.println(" Thrown from Sleep Safely: ");
-			System.err.println(" Thrown from Sleep Safely: " + e.getCause());
-		}
-	}
 
 	/**
 	 * Checks whether quotes are equal to each other *
@@ -75,6 +61,14 @@ public class QuoteTest {
 		List<Quote> asks = QuoteFactory.askOf("AAA", 1, 10.0);
 		List<Quote> bids = QuoteFactory.bidOf("AAA", 1, 10.0);
 		assertTrue(asks.size() == bids.size());		
+	}
+	
+	@Test
+	public void testWhetherTheQuotesAddUp() {
+		List<Quote> asks = QuoteFactory.askOf("AAA", 2, 10.0, 10.0, 10.0);
+		LongAdder askAdder = new LongAdder();// get a long adder
+		asks.forEach(quote -> askAdder.add(quote.getQuantity()));
+		assertTrue(askAdder.intValue() == 6);
 	}
 	
 }

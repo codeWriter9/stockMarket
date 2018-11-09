@@ -2,7 +2,6 @@ package com.trading.stockMarket.exchange;
 
 import static com.trading.stockMarket.exchange.QuoteFactory.askOf;
 import static com.trading.stockMarket.exchange.QuoteFactory.bidOf;
-import static java.util.Collections.unmodifiableList;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,12 +19,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * quotes for both directions they will get cancelled out
  * 
  * 
- * Orders -> set the individual orders of the brokers askMap -> set all the ask
- * quotes of the traders against the symbol bidMap -> set all the bid quotes of
- * the traders against the symbol
- * 
- * 
- * 
  * 
  * 
  * @author Sanjay Ghosh
@@ -37,13 +30,12 @@ public class Matcher implements Runnable {
 	private Order askOrder;// ask Order
 	private Order bidOrder;// bid Order
 	private Set<String> unmatchedSymbols;
-	private Lock lock;	
-    private Condition notReady;
-
+	private Lock lock;
+	private Condition notReady;
 
 	/**
 	 * 
-	 * 
+	 * Constructor where you pass a List<Order> of Orders.
 	 * 
 	 * @param orders
 	 */
@@ -55,6 +47,7 @@ public class Matcher implements Runnable {
 
 	/**
 	 * 
+	 * Return an ask Order
 	 * 
 	 * @return Order
 	 */
@@ -64,6 +57,7 @@ public class Matcher implements Runnable {
 
 	/**
 	 * 
+	 * Return an bid Order
 	 * 
 	 * @return Order
 	 */
@@ -73,7 +67,7 @@ public class Matcher implements Runnable {
 
 	/**
 	 * 
-	 * 
+	 * Default Constructors
 	 * 
 	 */
 	public Matcher() {
@@ -83,6 +77,7 @@ public class Matcher implements Runnable {
 
 	/**
 	 * 
+	 * Initialize the locks, orders, matched symbols and the condition
 	 * 
 	 */
 	private void initialize() {
@@ -90,12 +85,12 @@ public class Matcher implements Runnable {
 		this.askOrder = new Order("Ask");
 		this.bidOrder = new Order("Bid");
 		this.unmatchedSymbols = new LinkedHashSet<String>();
-		this.notReady = lock.newCondition();
+		this.notReady = lock.newCondition();// get a new condition
 	}
 
 	/**
 	 * 
-	 * 
+	 * Add an Order
 	 * 
 	 * @param order
 	 */
@@ -112,12 +107,11 @@ public class Matcher implements Runnable {
 		lock.lock();
 		try {
 			notReady.signal();
-		}
-		catch (Exception e) {
-			System.err.println(" while signalling all orders are ready ");
+		} catch (Exception e) {
+			System.err.println(" while signalling all orders are ready " + e.getMessage());
 		} finally {
 			lock.unlock();
-		}		
+		}
 	}
 
 	/**
@@ -127,12 +121,11 @@ public class Matcher implements Runnable {
 	 * 
 	 */
 	private void reconcile() {
-		System.out.println(" reconcile ");
+//		 System.out.println(" reconcile ");
 		synchronized (lock) { // Take a lock
 			for (Iterator<String> itr = unmatchedSymbols.iterator(); itr.hasNext();) { // while there are still
 																						// unmatched symbols
-				String symbol = itr.next();
-				System.out.println(" symbol " + symbol);
+				String symbol = itr.next();				
 				List<Quote> askList = askOrder.quotesForSymbol(symbol);// ask list
 				List<Quote> bidList = bidOrder.quotesForSymbol(symbol);// bid list
 				double askPrice = askList.get(0).price;// ask price
@@ -144,34 +137,26 @@ public class Matcher implements Runnable {
 				askList.clear();
 				bidList.clear();
 				if (askAdder.longValue() >= bidAdder.longValue()) {
-					askList.addAll(askOf(symbol, (int) (askAdder.longValue() - bidAdder.longValue()), askPrice));// only
-																													// one
-																													// ask
-					bidList.addAll(bidOf(symbol, (int) (askAdder.longValue() - bidAdder.longValue()), bidPrice));// only
-																													// one
-																													// bid
+					askList.addAll(askOf(symbol, (int) (askAdder.longValue() - bidAdder.longValue()), askPrice));
+					bidList.addAll(bidOf(symbol, 0, bidPrice));
 				} else {
-					askList.addAll(askOf(symbol, (int) (bidAdder.longValue() - askAdder.longValue()), askPrice));// only
-																													// one
-																													// ask
-					bidList.addAll(bidOf(symbol, (int) (bidAdder.longValue() - askAdder.longValue()), bidPrice));// only
-																													// one
-																													// bid
-				}
-				// if(!symbolMatched(itr)) break;
+					askList.addAll(askOf(symbol, 0, askPrice));
+					bidList.addAll(bidOf(symbol, (int) (bidAdder.longValue() - askAdder.longValue()), bidPrice));
+				}				
 			}
 		}
 	}
 
 	/**
 	 * 
-	 * TODO This method needs more refactoring to have a clear cut business goal.
+	 * 
 	 * (1) Check if all orders are loaded if yes sort them into ask and bid (2) If
 	 * not loaded get a lock and wait
 	 * 
 	 */
 	private void setOrders() {
-		if (orders != null && !orders.isEmpty()) { // check if the incoming order list has been set
+//		System.out.println("set Orders");
+		if (orders != null && !orders.isEmpty()) {
 			synchronized (lock) { // Take a lock
 				for (Order order : orders) { // for every broker collect the order
 					for (String orderList : order.orders().keySet()) { // get the List of Orders of symbol
@@ -186,19 +171,19 @@ public class Matcher implements Runnable {
 					}
 				}
 			}
-		} else {
+		} else { // If not set then an ask Order
 			lock.lock();
 			try {
 				notReady.await();
 			} catch (InterruptedException e) {
-				System.err.println(" while waiting to set order " + e.getCause());				
+				System.err.println(" while waiting to set order " + e.getCause());
 			} finally {
-				lock.unlock();	
+				lock.unlock();
 			}
-			
+
 		}
 
-	}	
+	}
 
 	/**
 	 * 
@@ -211,9 +196,10 @@ public class Matcher implements Runnable {
 		setOrders();// set orders and if not set then wait
 		reconcile();// reconcile for all that have been set
 	}
-	
+
 	/**
 	 * 
+	 * String representation of the Object
 	 * 
 	 */
 	@Override
