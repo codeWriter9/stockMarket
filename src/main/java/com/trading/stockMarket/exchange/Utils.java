@@ -81,4 +81,28 @@ public class Utils {
 			System.err.println(" Exception  " + e.getCause() + " while waiting for shutdown ");
 		}
 	}
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 * @param ExecutorService service
+	 * @param Consumer<Runnable> consumer
+	 * @param Long chrono
+	 * @param TimeUnit timeUnit
+	 */
+	public static void shutDownGracefully(ExecutorService service, Consumer<Runnable> consumer, Long chrono, TimeUnit timeUnit) {		
+		service.shutdown();// No new tasks will be accepted
+		try {
+			while (!service.awaitTermination(chrono, timeUnit)) { // Blocks for 5 seconds or if all tasks have been
+																		// shutdown
+				service.shutdownNow().forEach(consumer);// stop all
+																											// executing
+																											// tasks
+				// and consume the ones which are running to the console.
+			}
+		} catch (InterruptedException e) {
+			System.err.println(" Exception  " + e.getCause() + " while waiting for shutdown ");
+		}
+	}
 }

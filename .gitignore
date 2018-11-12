@@ -2,6 +2,8 @@
 
 *.class
 
+# project files
+.classpath
 
 # Test files
 

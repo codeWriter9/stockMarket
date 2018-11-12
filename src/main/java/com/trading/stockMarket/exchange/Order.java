@@ -46,6 +46,15 @@ public class Order {
 	
 	/**
 	 * 
+	 * 
+	 * @return
+	 */
+	public String brokerId() {
+		return brokerId;
+	}
+	
+	/**
+	 * 
 	 * Returns the list of quotes for symbol
 	 * 
 	 * @param symbol

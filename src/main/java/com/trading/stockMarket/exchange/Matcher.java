@@ -74,6 +74,13 @@ public class Matcher implements Runnable {
 		this.orders = new ArrayList<>();
 		initialize();
 	}
+	
+	
+	public void clear() {
+		nullify();
+		this.orders = new ArrayList<>();
+		initialize();
+	}
 
 	/**
 	 * 
@@ -87,6 +94,20 @@ public class Matcher implements Runnable {
 		this.unmatchedSymbols = new LinkedHashSet<String>();
 		this.notReady = lock.newCondition();// get a new condition
 	}
+	
+	
+	/**
+	 * 
+	 * 
+	 */
+	private void nullify() {
+		this.orders = null;
+		this.lock = null;
+		this.askOrder = null;
+		this.bidOrder = null;
+		this.unmatchedSymbols = null;
+		this.notReady = null;
+	}
 
 	/**
 	 * 
@@ -94,7 +115,7 @@ public class Matcher implements Runnable {
 	 * 
 	 * @param order
 	 */
-	public void addOrder(Order order) {
+	public synchronized void addOrder(Order order) {
 		orders.add(order);
 	}
 
