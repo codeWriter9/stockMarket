@@ -76,7 +76,7 @@ public class OrderTest {
 		List<Order> orders = new ArrayList<Order>();
 		Matcher matcher = new Matcher(orders);
 
-		System.out.println(" running checkTwoOrders ");
+		System.out.println(" running checkTwoOrders:EvenlyMatched ");
 		List<Quote> asksAAA = QuoteFactory.askOf("AAA", 1, 10.0, 10.0, 10.0);
 		List<Quote> asksBBB = QuoteFactory.askOf("BBB", 1, 11.0, 11.0, 11.0);
 		List<Quote> asksCCC = QuoteFactory.askOf("CCC", 1, 21.0, 23.0, 24.0);
@@ -86,7 +86,7 @@ public class OrderTest {
 		asks.addAll(asksBBB);
 		asks.addAll(asksCCC);
 
-		System.out.println(" running checkTwoOrders: Adding Order 1 ");
+		System.out.println(" running checkTwoOrders:EvenlyMatched: Adding Order 1 ");
 		Order order1 = new Order("Bull");
 		// add all orders
 		for (Quote quote : asks) {
@@ -102,7 +102,7 @@ public class OrderTest {
 		bids.addAll(bidsBBB);
 		bids.addAll(bidsCCC);
 
-		System.out.println(" running checkTwoOrders: Adding Order 2 ");
+		System.out.println(" running checkTwoOrders:EvenlyMatched: Adding Order 2 ");
 		Order order2 = new Order("Bear");
 		// add all orders
 		for (Quote quote : bids) {
@@ -111,7 +111,7 @@ public class OrderTest {
 
 		orders.add(order1);
 		orders.add(order2);
-		System.out.println(" running checkTwoOrders: starting Matcher ");		
+		System.out.println(" running checkTwoOrders:EvenlyMatched: starting Matcher ");		
 		ExecutorService service = Executors.newCachedThreadPool();
 		service.execute(matcher);
 		shutDownGracefully(service, (runnable) -> System.out.println(" waiting for " + runnable));		
@@ -125,7 +125,7 @@ public class OrderTest {
 		List<Order> orders = new ArrayList<Order>();
 		Matcher matcher = new Matcher(orders);
 
-		System.out.println(" running checkTwoOrders ");
+		System.out.println(" running checkTwoOrders:AsksOutMatchingBids ");
 		List<Quote> asksAAA = QuoteFactory.askOf("AAA", 2, 10.0, 10.0, 10.0);
 		List<Quote> asksBBB = QuoteFactory.askOf("BBB", 2, 11.0, 11.0, 11.0);
 		List<Quote> asksCCC = QuoteFactory.askOf("CCC", 2, 21.0, 23.0, 24.0);
@@ -135,7 +135,7 @@ public class OrderTest {
 		asks.addAll(asksBBB);
 		asks.addAll(asksCCC);
 
-		System.out.println(" running checkTwoOrders: Adding Order 1 ");
+		System.out.println(" running checkTwoOrders:AsksOutMatchingBids: Adding Order 1 ");
 		Order order1 = new Order("Bull");
 		// add all orders
 		for (Quote quote : asks) {
@@ -151,7 +151,7 @@ public class OrderTest {
 		bids.addAll(bidsBBB);
 		bids.addAll(bidsCCC);
 
-		System.out.println(" running checkTwoOrders: Adding Order 2 ");
+		System.out.println(" running checkTwoOrders:AsksOutMatchingBids: Adding Order 2 ");
 		Order order2 = new Order("Bear");
 		// add all orders
 		for (Quote quote : bids) {
@@ -160,7 +160,7 @@ public class OrderTest {
 
 		orders.add(order1);
 		orders.add(order2);
-		System.out.println(" running checkTwoOrders: starting Matcher ");		
+		System.out.println(" running checkTwoOrders:AsksOutMatchingBids: starting Matcher ");		
 		ExecutorService service = Executors.newCachedThreadPool();
 		service.execute(matcher);
 		shutDownGracefully(service, (runnable) -> System.out.println(" waiting for " + runnable));		
@@ -174,7 +174,7 @@ public class OrderTest {
 		List<Order> orders = new ArrayList<Order>();
 		Matcher matcher = new Matcher(orders);
 
-		System.out.println(" running checkTwoOrders ");
+		System.out.println(" running checkTwoOrders:BidsOutMatchingAsks ");
 		List<Quote> asksAAA = QuoteFactory.askOf("AAA", 1, 10.0, 10.0, 10.0);
 		List<Quote> asksBBB = QuoteFactory.askOf("BBB", 1, 11.0, 11.0, 11.0);
 		List<Quote> asksCCC = QuoteFactory.askOf("CCC", 1, 21.0, 23.0, 24.0);
@@ -184,7 +184,7 @@ public class OrderTest {
 		asks.addAll(asksBBB);
 		asks.addAll(asksCCC);
 
-		System.out.println(" running checkTwoOrders: Adding Order 1 ");
+		System.out.println(" running checkTwoOrders:BidsOutMatchingAsks: Adding Order 1 ");
 		Order order1 = new Order("Bull");
 		// add all orders
 		for (Quote quote : asks) {
@@ -200,7 +200,7 @@ public class OrderTest {
 		bids.addAll(bidsBBB);
 		bids.addAll(bidsCCC);
 
-		System.out.println(" running checkTwoOrders: Adding Order 2 ");
+		System.out.println(" running checkTwoOrders:BidsOutMatchingAsks: Adding Order 2 ");
 		Order order2 = new Order("Bear");
 		// add all orders
 		for (Quote quote : bids) {
@@ -209,7 +209,7 @@ public class OrderTest {
 
 		orders.add(order1);
 		orders.add(order2);
-		System.out.println(" running checkTwoOrders: starting Matcher ");		
+		System.out.println(" running checkTwoOrders:BidsOutMatchingAsks: starting Matcher ");		
 		ExecutorService service = Executors.newCachedThreadPool();
 		service.execute(matcher);
 		shutDownGracefully(service, (runnable) -> System.out.println(" waiting for " + runnable));		
@@ -390,7 +390,7 @@ public class OrderTest {
 		asks.clear();
 		
 		bidsAAA.clear();
-		bidsBBB.clear();
+		bidsBBB.clear();	
 		bidsCCC.clear();
 		bids.clear();
 	}

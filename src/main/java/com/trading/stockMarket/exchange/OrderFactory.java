@@ -25,5 +25,5 @@ public class OrderFactory {
 			order.addOrder(quote.getSymbol(), quote);
 		} 
 		return order;
-	}
+	}	
 }

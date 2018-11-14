@@ -2,6 +2,9 @@ package com.trading.stockMarket.exchange;
 
 import static java.lang.Thread.sleep;
 
+import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -20,13 +23,33 @@ public class Utils {
 	/**
 	 * 
 	 * 
+	 * @param T
+	 * @return BlockingQueue<T>
+	 */
+	public static <T> BlockingQueue<T> blockingQueue(List<T> listOft) {
+		if(listOft != null && !listOft.isEmpty()) {
+			BlockingQueue<T> arrayBlockingQueue = new ArrayBlockingQueue<>(listOft.size());
+			listOft.forEach(t -> {
+				try {
+					arrayBlockingQueue.put(t);
+				} catch (InterruptedException e) {
+					System.err.println(" Interrupted Exception while adding " + t);
+				}
+			});
+			return arrayBlockingQueue;
+		}
+		return null;
+	}
+	
+	/**
+	 * 
+	 * 
 	 */
 	public static void sleepSafely(long timeOut) {
 		try {
 			System.out.println(" Sleep Safely for " + timeOut  + " sec: ");
 			sleep(timeOut);
 		} catch (Exception e) {
-			System.err.println(" Thrown from Sleep Safely: ");
 			System.err.println(" Thrown from Sleep Safely: " + e.getCause());
 		}
 	}
@@ -40,7 +63,6 @@ public class Utils {
 			System.out.println(" Sleep Safely for 1 sec: ");
 			sleep(1000);
 		} catch (Exception e) {
-			System.err.println(" Thrown from Sleep Safely: ");
 			System.err.println(" Thrown from Sleep Safely: " + e.getCause());
 		}
 	}
@@ -55,7 +77,6 @@ public class Utils {
 			System.out.println(" Join Safely: ");
 			t.join();
 		} catch (Exception e) {
-			System.err.println(" Thrown from Join Safely: ");
 			System.err.println(" Thrown from Join Safely: " + e.getCause());
 		}
 	}
