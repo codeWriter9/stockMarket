@@ -29,5 +29,14 @@ public class Bid extends Quote {
 	public BuySell buySell() {
 		return BuySell.BUY;
 	}
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	public static String name() {
+		return "BID";
+	}
 
 }

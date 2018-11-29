@@ -18,7 +18,7 @@ public class OrderFactory {
 	 * @param quotes
 	 * @return
 	 */
-	public static Order order(String brokerId, List<Quote> quotes) {
+	public static Order of(String brokerId, List<Quote> quotes) {
 		if(quotes == null || quotes.size() == 0) throw new IllegalArgumentException("Unequal Order");
 		Order order = new Order(brokerId);
 		for(Quote quote : quotes) {

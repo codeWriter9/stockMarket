@@ -21,6 +21,15 @@ public class Ask extends Quote {
 	@Override
 	public BuySell buySell() {
 		return BuySell.SELL;
-	}	
-
+	}
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 * @return
+	 */
+	public static String name() {
+		return "ASK";
+	}
 }

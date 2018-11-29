@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 /**
@@ -20,6 +22,8 @@ import org.junit.Test;
  *
  */
 public class OrderTest {
+	
+	protected static final Logger LOGGER = LogManager.getLogger();
 
 	/**
 	 * Checks whether quotes are equal to each other
@@ -76,7 +80,7 @@ public class OrderTest {
 		List<Order> orders = new ArrayList<Order>();
 		Matcher matcher = new Matcher(orders);
 
-		System.out.println(" running checkTwoOrders:EvenlyMatched ");
+		LOGGER.info(" running checkTwoOrders:EvenlyMatched ");
 		List<Quote> asksAAA = QuoteFactory.askOf("AAA", 1, 10.0, 10.0, 10.0);
 		List<Quote> asksBBB = QuoteFactory.askOf("BBB", 1, 11.0, 11.0, 11.0);
 		List<Quote> asksCCC = QuoteFactory.askOf("CCC", 1, 21.0, 23.0, 24.0);
@@ -86,7 +90,7 @@ public class OrderTest {
 		asks.addAll(asksBBB);
 		asks.addAll(asksCCC);
 
-		System.out.println(" running checkTwoOrders:EvenlyMatched: Adding Order 1 ");
+		LOGGER.info(" running checkTwoOrders:EvenlyMatched: Adding Order 1 ");
 		Order order1 = new Order("Bull");
 		// add all orders
 		for (Quote quote : asks) {
@@ -102,7 +106,7 @@ public class OrderTest {
 		bids.addAll(bidsBBB);
 		bids.addAll(bidsCCC);
 
-		System.out.println(" running checkTwoOrders:EvenlyMatched: Adding Order 2 ");
+		LOGGER.info(" running checkTwoOrders:EvenlyMatched: Adding Order 2 ");
 		Order order2 = new Order("Bear");
 		// add all orders
 		for (Quote quote : bids) {
@@ -111,10 +115,10 @@ public class OrderTest {
 
 		orders.add(order1);
 		orders.add(order2);
-		System.out.println(" running checkTwoOrders:EvenlyMatched: starting Matcher ");		
+		LOGGER.info(" running checkTwoOrders:EvenlyMatched: starting Matcher ");		
 		ExecutorService service = Executors.newCachedThreadPool();
 		service.execute(matcher);
-		shutDownGracefully(service, (runnable) -> System.out.println(" waiting for " + runnable));		
+		shutDownGracefully(service, (runnable) -> LOGGER.info(" waiting for " + runnable));		
 		for(String symbol :matcher.askOrder().symbols()) assertTrue(matcher.askOrder().checkQuotes(symbol, (quote) -> quote.getQuantity() == 0));		
 		for(String symbol :matcher.bidOrder().symbols()) assertTrue(matcher.bidOrder().checkQuotes(symbol, (quote) -> quote.getQuantity() == 0));
 	}
@@ -125,7 +129,7 @@ public class OrderTest {
 		List<Order> orders = new ArrayList<Order>();
 		Matcher matcher = new Matcher(orders);
 
-		System.out.println(" running checkTwoOrders:AsksOutMatchingBids ");
+		LOGGER.info(" running checkTwoOrders:AsksOutMatchingBids ");
 		List<Quote> asksAAA = QuoteFactory.askOf("AAA", 2, 10.0, 10.0, 10.0);
 		List<Quote> asksBBB = QuoteFactory.askOf("BBB", 2, 11.0, 11.0, 11.0);
 		List<Quote> asksCCC = QuoteFactory.askOf("CCC", 2, 21.0, 23.0, 24.0);
@@ -135,7 +139,7 @@ public class OrderTest {
 		asks.addAll(asksBBB);
 		asks.addAll(asksCCC);
 
-		System.out.println(" running checkTwoOrders:AsksOutMatchingBids: Adding Order 1 ");
+		LOGGER.info(" running checkTwoOrders:AsksOutMatchingBids: Adding Order 1 ");
 		Order order1 = new Order("Bull");
 		// add all orders
 		for (Quote quote : asks) {
@@ -151,7 +155,7 @@ public class OrderTest {
 		bids.addAll(bidsBBB);
 		bids.addAll(bidsCCC);
 
-		System.out.println(" running checkTwoOrders:AsksOutMatchingBids: Adding Order 2 ");
+		LOGGER.info(" running checkTwoOrders:AsksOutMatchingBids: Adding Order 2 ");
 		Order order2 = new Order("Bear");
 		// add all orders
 		for (Quote quote : bids) {
@@ -160,10 +164,10 @@ public class OrderTest {
 
 		orders.add(order1);
 		orders.add(order2);
-		System.out.println(" running checkTwoOrders:AsksOutMatchingBids: starting Matcher ");		
+		LOGGER.info(" running checkTwoOrders:AsksOutMatchingBids: starting Matcher ");		
 		ExecutorService service = Executors.newCachedThreadPool();
 		service.execute(matcher);
-		shutDownGracefully(service, (runnable) -> System.out.println(" waiting for " + runnable));		
+		shutDownGracefully(service, (runnable) -> LOGGER.info(" waiting for " + runnable));		
 		for(String symbol :matcher.askOrder().symbols()) assertTrue(matcher.askOrder().checkQuotes(symbol, (quote) -> quote.getQuantity() == 3));		
 		for(String symbol :matcher.bidOrder().symbols()) assertTrue(matcher.bidOrder().checkQuotes(symbol, (quote) -> quote.getQuantity() == 0));
 	}
@@ -174,7 +178,7 @@ public class OrderTest {
 		List<Order> orders = new ArrayList<Order>();
 		Matcher matcher = new Matcher(orders);
 
-		System.out.println(" running checkTwoOrders:BidsOutMatchingAsks ");
+		LOGGER.info(" running checkTwoOrders:BidsOutMatchingAsks ");
 		List<Quote> asksAAA = QuoteFactory.askOf("AAA", 1, 10.0, 10.0, 10.0);
 		List<Quote> asksBBB = QuoteFactory.askOf("BBB", 1, 11.0, 11.0, 11.0);
 		List<Quote> asksCCC = QuoteFactory.askOf("CCC", 1, 21.0, 23.0, 24.0);
@@ -184,7 +188,7 @@ public class OrderTest {
 		asks.addAll(asksBBB);
 		asks.addAll(asksCCC);
 
-		System.out.println(" running checkTwoOrders:BidsOutMatchingAsks: Adding Order 1 ");
+		LOGGER.info(" running checkTwoOrders:BidsOutMatchingAsks: Adding Order 1 ");
 		Order order1 = new Order("Bull");
 		// add all orders
 		for (Quote quote : asks) {
@@ -200,7 +204,7 @@ public class OrderTest {
 		bids.addAll(bidsBBB);
 		bids.addAll(bidsCCC);
 
-		System.out.println(" running checkTwoOrders:BidsOutMatchingAsks: Adding Order 2 ");
+		LOGGER.info(" running checkTwoOrders:BidsOutMatchingAsks: Adding Order 2 ");
 		Order order2 = new Order("Bear");
 		// add all orders
 		for (Quote quote : bids) {
@@ -209,10 +213,10 @@ public class OrderTest {
 
 		orders.add(order1);
 		orders.add(order2);
-		System.out.println(" running checkTwoOrders:BidsOutMatchingAsks: starting Matcher ");		
+		LOGGER.info(" running checkTwoOrders:BidsOutMatchingAsks: starting Matcher ");		
 		ExecutorService service = Executors.newCachedThreadPool();
 		service.execute(matcher);
-		shutDownGracefully(service, (runnable) -> System.out.println(" waiting for " + runnable));		
+		shutDownGracefully(service, (runnable) -> LOGGER.info(" waiting for " + runnable));		
 		for(String symbol :matcher.askOrder().symbols()) assertTrue(matcher.askOrder().checkQuotes(symbol, (quote) -> quote.getQuantity() == 0));		
 		for(String symbol :matcher.bidOrder().symbols()) assertTrue(matcher.bidOrder().checkQuotes(symbol, (quote) -> quote.getQuantity() == 3));
 	}
@@ -225,7 +229,7 @@ public class OrderTest {
 		List<Order> orders = new ArrayList<Order>();
 		Matcher matcher = new Matcher(orders);
 
-		System.out.println(" running 3ScenariosOnASingleMatcher ");
+		LOGGER.info(" running 3ScenariosOnASingleMatcher ");
 		List<Quote> asksAAA = QuoteFactory.askOf("AAA", 1, 10.0, 10.0, 10.0);
 		List<Quote> asksBBB = QuoteFactory.askOf("BBB", 1, 11.0, 11.0, 11.0);
 		List<Quote> asksCCC = QuoteFactory.askOf("CCC", 1, 21.0, 23.0, 24.0);
@@ -235,7 +239,7 @@ public class OrderTest {
 		asks.addAll(asksBBB);
 		asks.addAll(asksCCC);
 
-		System.out.println(" running 3ScenariosOnASingleMatcher: Adding Order 1 ");
+		LOGGER.info(" running 3ScenariosOnASingleMatcher: Adding Order 1 ");
 		Order order1 = new Order("Bull");
 		// add all orders
 		for (Quote quote : asks) {
@@ -251,7 +255,7 @@ public class OrderTest {
 		bids.addAll(bidsBBB);
 		bids.addAll(bidsCCC);
 
-		System.out.println(" running 3ScenariosOnASingleMatcher: Adding Order 2 ");
+		LOGGER.info(" running 3ScenariosOnASingleMatcher: Adding Order 2 ");
 		Order order2 = new Order("Bear");
 		// add all orders
 		for (Quote quote : bids) {
@@ -260,10 +264,10 @@ public class OrderTest {
 
 		orders.add(order1);
 		orders.add(order2);
-		System.out.println(" running 3ScenariosOnASingleMatcher: starting Matcher ");		
+		LOGGER.info(" running 3ScenariosOnASingleMatcher: starting Matcher ");		
 		ExecutorService service = Executors.newCachedThreadPool();
 		service.execute(matcher);
-		shutDownGracefully(service, (runnable) -> System.out.println(" waiting for " + runnable));		
+		shutDownGracefully(service, (runnable) -> LOGGER.info(" waiting for " + runnable));		
 		for(String symbol :matcher.askOrder().symbols()) assertTrue(matcher.askOrder().checkQuotes(symbol, (quote) -> quote.getQuantity() == 0));		
 		for(String symbol :matcher.bidOrder().symbols()) assertTrue(matcher.bidOrder().checkQuotes(symbol, (quote) -> quote.getQuantity() == 0));
 		
@@ -272,7 +276,7 @@ public class OrderTest {
 		orders = new ArrayList<Order>();
 		matcher = new Matcher(orders);
 
-		System.out.println(" running 3ScenariosOnASingleMatcher ");
+		LOGGER.info(" running 3ScenariosOnASingleMatcher ");
 		asksAAA = QuoteFactory.askOf("AAA", 2, 10.0, 10.0, 10.0);
 		asksBBB = QuoteFactory.askOf("BBB", 2, 11.0, 11.0, 11.0);
 		asksCCC = QuoteFactory.askOf("CCC", 2, 21.0, 23.0, 24.0);
@@ -282,7 +286,7 @@ public class OrderTest {
 		asks.addAll(asksBBB);
 		asks.addAll(asksCCC);
 
-		System.out.println(" running 3ScenariosOnASingleMatcher: Adding Order 1 ");
+		LOGGER.info(" running 3ScenariosOnASingleMatcher: Adding Order 1 ");
 		order1 = new Order("Bull");
 		// add all orders
 		for (Quote quote : asks) {
@@ -298,7 +302,7 @@ public class OrderTest {
 		bids.addAll(bidsBBB);
 		bids.addAll(bidsCCC);
 
-		System.out.println(" running 3ScenariosOnASingleMatcher: Adding Order 2 ");
+		LOGGER.info(" running 3ScenariosOnASingleMatcher: Adding Order 2 ");
 		order2 = new Order("Bear");
 		// add all orders
 		for (Quote quote : bids) {
@@ -307,10 +311,10 @@ public class OrderTest {
 
 		orders.add(order1);
 		orders.add(order2);
-		System.out.println(" running 3ScenariosOnASingleMatcher: starting Matcher ");		
+		LOGGER.info(" running 3ScenariosOnASingleMatcher: starting Matcher ");		
 		service = Executors.newCachedThreadPool();
 		service.execute(matcher);
-		shutDownGracefully(service, (runnable) -> System.out.println(" waiting for " + runnable));		
+		shutDownGracefully(service, (runnable) -> LOGGER.info(" waiting for " + runnable));		
 		for(String symbol :matcher.askOrder().symbols()) assertTrue(matcher.askOrder().checkQuotes(symbol, (quote) -> quote.getQuantity() == 3));		
 		for(String symbol :matcher.bidOrder().symbols()) assertTrue(matcher.bidOrder().checkQuotes(symbol, (quote) -> quote.getQuantity() == 0));
 		
@@ -320,7 +324,7 @@ public class OrderTest {
 		orders = new ArrayList<Order>();
 		matcher = new Matcher(orders);
 
-		System.out.println(" running 3ScenariosOnASingleMatcher ");
+		LOGGER.info(" running 3ScenariosOnASingleMatcher ");
 		asksAAA = QuoteFactory.askOf("AAA", 1, 10.0, 10.0, 10.0);
 		asksBBB = QuoteFactory.askOf("BBB", 1, 11.0, 11.0, 11.0);
 		asksCCC = QuoteFactory.askOf("CCC", 1, 21.0, 23.0, 24.0);
@@ -330,7 +334,7 @@ public class OrderTest {
 		asks.addAll(asksBBB);
 		asks.addAll(asksCCC);
 
-		System.out.println(" running 3ScenariosOnASingleMatcher: Adding Order 1 ");
+		LOGGER.info(" running 3ScenariosOnASingleMatcher: Adding Order 1 ");
 		order1 = new Order("Bull");
 		// add all orders
 		for (Quote quote : asks) {
@@ -346,7 +350,7 @@ public class OrderTest {
 		bids.addAll(bidsBBB);
 		bids.addAll(bidsCCC);
 
-		System.out.println(" running 3ScenariosOnASingleMatcher: Adding Order 2 ");
+		LOGGER.info(" running 3ScenariosOnASingleMatcher: Adding Order 2 ");
 		order2 = new Order("Bear");
 		// add all orders
 		for (Quote quote : bids) {
@@ -355,10 +359,10 @@ public class OrderTest {
 
 		orders.add(order1);
 		orders.add(order2);
-		System.out.println(" running 3ScenariosOnASingleMatcher: starting Matcher ");		
+		LOGGER.info(" running 3ScenariosOnASingleMatcher: starting Matcher ");		
 		service = Executors.newCachedThreadPool();
 		service.execute(matcher);
-		shutDownGracefully(service, (runnable) -> System.out.println(" waiting for " + runnable));		
+		shutDownGracefully(service, (runnable) -> LOGGER.info(" waiting for " + runnable));		
 		for(String symbol :matcher.askOrder().symbols()) assertTrue(matcher.askOrder().checkQuotes(symbol, (quote) -> quote.getQuantity() == 0));		
 		for(String symbol :matcher.bidOrder().symbols()) assertTrue(matcher.bidOrder().checkQuotes(symbol, (quote) -> quote.getQuantity() == 3));
 	}

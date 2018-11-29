@@ -158,11 +158,11 @@ public class Matcher implements Runnable {
 				askList.clear();
 				bidList.clear();
 				if (askAdder.longValue() >= bidAdder.longValue()) {
-					askList.addAll(askOf(symbol, (int) (askAdder.longValue() - bidAdder.longValue()), askPrice));
-					bidList.addAll(bidOf(symbol, 0, bidPrice));
+					askList.add(askOf(symbol, (int) (askAdder.longValue() - bidAdder.longValue()), askPrice));
+					bidList.add(bidOf(symbol, 0, bidPrice));
 				} else {
-					askList.addAll(askOf(symbol, 0, askPrice));
-					bidList.addAll(bidOf(symbol, (int) (bidAdder.longValue() - askAdder.longValue()), bidPrice));
+					askList.add(askOf(symbol, 0, askPrice));
+					bidList.add(bidOf(symbol, (int) (bidAdder.longValue() - askAdder.longValue()), bidPrice));
 				}				
 			}
 		}

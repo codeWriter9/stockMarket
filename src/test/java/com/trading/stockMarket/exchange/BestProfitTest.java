@@ -4,6 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 /**
@@ -14,6 +16,8 @@ import org.junit.Test;
  *
  */
 public class BestProfitTest {
+	
+	protected static final Logger LOGGER = LogManager.getLogger();
 
 	/**
 	 * Checks the historical data for prices and gives you two dates on which you
@@ -37,7 +41,7 @@ public class BestProfitTest {
 				}
 			}
 		}
-		System.out.println(" Profit is largest at  " + profit + " buy on  " + buyDate + " and sell on  " + sellDate);
+		LOGGER.info(" Profit is largest at  " + profit + " buy on  " + buyDate + " and sell on  " + sellDate);
 		assertTrue(buyDate == 4);
 		assertTrue(sellDate == 6);
 		assertTrue(new Double(profit).equals(new Double(2.6999999999999993)));

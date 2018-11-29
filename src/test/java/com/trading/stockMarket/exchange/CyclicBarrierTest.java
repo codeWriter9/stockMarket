@@ -1,7 +1,7 @@
 package com.trading.stockMarket.exchange;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.trading.stockMarket.exchange.OrderFactory.order;
+import static com.trading.stockMarket.exchange.OrderFactory.of;
 import static com.trading.stockMarket.exchange.QuoteFactory.askOf;
 import static com.trading.stockMarket.exchange.QuoteFactory.bidOf;
 import static com.trading.stockMarket.exchange.Utils.blockingQueue;
@@ -29,9 +29,9 @@ public class CyclicBarrierTest {
 	@Test
 	public void testCyclicBarrier() {
 
-		Order order1 = order("Trader1", askOf(new String[] { "AAA", "BBB", "CCC" }, new Integer[] { 1, 1, 1 },
+		Order order1 = of("Trader1", askOf(new String[] { "AAA", "BBB", "CCC" }, new Integer[] { 1, 1, 1 },
 				new double[][] { { 10.0, 10.0, 10.0 }, { 11.0, 11.0, 11.0 }, { 21.0, 23.0, 24.0 } }));
-		Order order2 = order("Trader2", bidOf(new String[] { "AAA", "BBB", "CCC" }, new Integer[] { 1, 1, 1 },
+		Order order2 = of("Trader2", bidOf(new String[] { "AAA", "BBB", "CCC" }, new Integer[] { 1, 1, 1 },
 				new double[][] { { 10.0, 10.0, 10.0 }, { 11.0, 11.0, 11.0 }, { 21.0, 23.0, 24.0 } }));
 		List<Order> orders = newArrayList(order1, order2);
 		Matcher matcher = new Matcher(orders);
@@ -55,9 +55,9 @@ public class CyclicBarrierTest {
 	@Test
 	public void testCyclicBarrier2() {
 
-		Order order1 = order("Trader1", askOf(new String[] { "AAA", "BBB", "CCC" }, new Integer[] { 1, 1, 1 },
+		Order order1 = of("Trader1", askOf(new String[] { "AAA", "BBB", "CCC" }, new Integer[] { 1, 1, 1 },
 				new double[][] { { 10.0, 10.0, 10.0 }, { 11.0, 11.0, 11.0 }, { 21.0, 23.0, 24.0 } }));
-		Order order2 = order("Trader2", bidOf(new String[] { "AAA", "BBB", "CCC" }, new Integer[] { 1, 1, 1 },
+		Order order2 = of("Trader2", bidOf(new String[] { "AAA", "BBB", "CCC" }, new Integer[] { 1, 1, 1 },
 				new double[][] { { 10.0, 10.0, 10.0 }, { 11.0, 11.0, 11.0 }, { 21.0, 23.0, 24.0 } }));
 		List<Order> orders = newArrayList(order1, order2);
 		Matcher matcher = new Matcher(orders);
@@ -77,9 +77,9 @@ public class CyclicBarrierTest {
 			assertTrue(matcher.bidOrder().checkQuotes(symbol, (quote) -> quote.getQuantity() == 0));
 		
 		Utils.sleepSafely(1000);
-		order1 = order("Trader1", askOf(new String[] { "AAA", "BBB", "CCC" }, new Integer[] { 1, 1, 1 },
+		order1 = of("Trader1", askOf(new String[] { "AAA", "BBB", "CCC" }, new Integer[] { 1, 1, 1 },
 				new double[][] { { 10.0, 10.0, 10.0 }, { 11.0, 11.0, 11.0 }, { 21.0, 23.0, 24.0 } }));
-		order2 = order("Trader2", bidOf(new String[] { "AAA", "BBB", "CCC" }, new Integer[] { 1, 1, 1 },
+		order2 = of("Trader2", bidOf(new String[] { "AAA", "BBB", "CCC" }, new Integer[] { 1, 1, 1 },
 				new double[][] { { 10.0, 10.0, 10.0 }, { 11.0, 11.0, 11.0 }, { 21.0, 23.0, 24.0 } }));
 		orders = newArrayList(order1, order2);
 		matcher.clear();// We cannot create a new Matcher as the Cyclic Barrier has already been made with this instance
