@@ -72,7 +72,7 @@ public class Utils {
 	 */
 	public static void sleepSafely() {
 		try {
-			System.out.println(" Sleep Safely for 1 sec: ");
+			LOGGER.info(" Sleep Safely for 1 sec: ");
 			sleep(1000);
 		} catch (Exception e) {
 			System.err.println(" Thrown from Sleep Safely: " + e.getCause());
@@ -86,7 +86,7 @@ public class Utils {
 	 */
 	public static void joinSafely(Thread t) {
 		try {
-			System.out.println(" Join Safely: ");
+			LOGGER.info(" Join Safely: ");
 			t.join();
 		} catch (Exception e) {
 			System.err.println(" Thrown from Join Safely: " + e.getCause());

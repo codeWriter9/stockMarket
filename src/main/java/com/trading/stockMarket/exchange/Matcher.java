@@ -13,6 +13,9 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * 
  * Matcher - This class matches the Orders passed to it as per quotes. If there
@@ -25,6 +28,8 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  */
 public class Matcher implements Runnable {
+	
+	protected static final Logger LOGGER = LogManager.getLogger();
 
 	private List<Order> orders;
 	private Order askOrder;// ask Order
@@ -142,7 +147,7 @@ public class Matcher implements Runnable {
 	 * 
 	 */
 	private void reconcile() {
-//		 System.out.println(" reconcile ");
+//		 LOGGER.info(" reconcile ");
 		synchronized (lock) { // Take a lock
 			for (Iterator<String> itr = unmatchedSymbols.iterator(); itr.hasNext();) { // while there are still
 																						// unmatched symbols
@@ -176,7 +181,7 @@ public class Matcher implements Runnable {
 	 * 
 	 */
 	private void setOrders() {
-//		System.out.println("set Orders");
+//		LOGGER.info("set Orders");
 		if (orders != null && !orders.isEmpty()) {
 			synchronized (lock) { // Take a lock
 				for (Order order : orders) { // for every broker collect the order

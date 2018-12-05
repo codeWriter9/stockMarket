@@ -10,9 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 public class IOUtilsTest {
+	
+	protected static final Logger LOGGER = LogManager.getLogger();
 
 	@Test
 	public void test() {
@@ -20,12 +24,12 @@ public class IOUtilsTest {
 		Integer numberOfTraders = scanner.nextInt();
 		assertTrue(numberOfTraders == 2);
 		String nameOfTrader = scanner.next();
-		System.out.println(nameOfTrader);
-		System.out.println(QuoteFactory.of(scanner));
+		LOGGER.info(nameOfTrader);
+		LOGGER.info(QuoteFactory.of(scanner));
 		nameOfTrader = scanner.next();
-		System.out.println(nameOfTrader);
-		System.out.println(QuoteFactory.of(scanner));
-		IOUtil.closeAndRelease();
+		LOGGER.info(nameOfTrader);
+		LOGGER.info(QuoteFactory.of(scanner));
+		closeAndRelease();
 	}
 	
 	@Test
@@ -37,7 +41,7 @@ public class IOUtilsTest {
 			orders.add(of(scanner.next(), of(scanner)));
 			numberOfTraders--;
 		}
-		System.out.println(orders);
+		LOGGER.info(orders);
 		closeAndRelease();
 	}
 }

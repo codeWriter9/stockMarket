@@ -79,13 +79,13 @@ public class Trader implements Runnable {
 	 * @param order
 	 */
 	private Order load() {
-		// System.out.println(traderid + " loading ");
+		// LOGGER.info(traderid + " loading ");
 		synchronized (queue) {
 			for (Order order : ((ArrayBlockingQueue<Order>) queue)) {
-				// System.out.println(traderid + " checking " + order.brokerId());
+				// LOGGER.info(traderid + " checking " + order.brokerId());
 				if (traderid.equals(order.brokerId())) {
 					this.order = order;
-					// System.out.println(traderid + " this.order " + this.order);
+					// LOGGER.info(traderid + " this.order " + this.order);
 					queue.remove(order);
 				}
 			}
@@ -99,7 +99,7 @@ public class Trader implements Runnable {
 	 * 
 	 */
 	private void addOrderToMatcher() {
-		// System.out.println(traderid + " adding to Matcher ");
+		// LOGGER.info(traderid + " adding to Matcher ");
 		matcher.addOrder(load());
 	}
 
@@ -109,7 +109,7 @@ public class Trader implements Runnable {
 	 * 
 	 */
 	private void process() {
-		// System.out.println(traderid + " processing ");
+		// LOGGER.info(traderid + " processing ");
 		currentRun++;
 		addOrderToMatcher();
 	}
@@ -123,9 +123,9 @@ public class Trader implements Runnable {
 	 */
 	@Override
 	public void run() {
-		// System.out.println(traderid + " running ");
+		// LOGGER.info(traderid + " running ");
 		while (!done()) {
-			// System.out.println(traderid + " locking ");
+			// LOGGER.info(traderid + " locking ");
 			lock.lock();
 			process();
 			try {
