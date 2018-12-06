@@ -8,7 +8,8 @@ Fork or clone from this url
 
 ### Design
 
-The design is yet to be finalized
+The project currently supports Limit Orders only. Two or more traders put their respective Quotes for different symbols or Stocks.
+The quotes may be variable in prices and quantities. If there is a match between the ASK and the BID they would get matched.
 
 ### Prerequisites
 
