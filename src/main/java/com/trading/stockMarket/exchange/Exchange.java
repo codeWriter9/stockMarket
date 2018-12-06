@@ -1,7 +1,6 @@
 package com.trading.stockMarket.exchange;
 
 import static com.trading.stockMarket.exchange.IOUtil.scanner;
-import static com.trading.stockMarket.exchange.Utils.blockingQueue;
 import static com.trading.stockMarket.exchange.Utils.shutDownGracefully;
 import static com.trading.stockMarket.exchange.Utils.sleepSafely;
 import static java.lang.System.out;
@@ -15,6 +14,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.LongAdder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -90,6 +90,20 @@ public class Exchange {
 	public void shutDown() {
 		shutDownGracefully(service, (runnable) -> out.println(" waiting for " + runnable), 10L, SECONDS);
 	}
+	
+	/**
+	 * 
+	 * 
+	 */
+	public Status status() {
+		LongAdder adder = new LongAdder();
+		for(String symbol :matcher.askOrder().symbols()) adder.add(matcher.askOrder().quotesForSymbol(symbol).size());
+		for(String symbol :matcher.bidOrder().symbols()) adder.add(-matcher.bidOrder().quotesForSymbol(symbol).size());
+		if(adder.longValue() > 0) return Status.OVERASK;
+		else if (adder.longValue() > 0) return Status.OVERBID;
+		else return Status.RECONCILED;
+	}
+	
 	
 	/**
 	 * 

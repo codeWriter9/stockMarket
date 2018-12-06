@@ -7,16 +7,14 @@ import org.apache.logging.log4j.Logger;
  * Hello world!
  *
  */
-public class App 
-{
+public class App {
 	protected static final Logger LOGGER = LogManager.getLogger();
 
-
-    public static void main( String[] args )
-    {
-    	LOGGER.info( "Hello World!" );
-    	Exchange exchange = new Exchange();
-    	exchange.execute();
-    	exchange.shutDown();
-    }
+	public static void main(String[] args) {
+		LOGGER.info("Hello World!");
+		Exchange exchange = new Exchange();
+		exchange.execute();
+		exchange.shutDown();
+		LOGGER.info(exchange.status());
+	}
 }
