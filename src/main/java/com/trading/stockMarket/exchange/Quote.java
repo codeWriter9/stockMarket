@@ -5,7 +5,8 @@ import java.util.Objects;
 
 /**
  * 
- * Encapulation of a Quote which would have an unique stock symbol, unit price and quantity
+ * Encapulation of a Quote which would have an unique stock symbol, unit price
+ * and quantity
  * 
  * @author Sanjay Ghosh
  *
@@ -35,8 +36,9 @@ public abstract class Quote {
 
 	/**
 	 * 
+	 * Returns the Symbol
 	 * 
-	 * @return
+	 * @return String
 	 */
 	public synchronized String getSymbol() {
 		return symbol;
@@ -44,6 +46,7 @@ public abstract class Quote {
 
 	/**
 	 * 
+	 * Sets the Symbol
 	 * 
 	 * @param symbol
 	 */
@@ -53,9 +56,9 @@ public abstract class Quote {
 
 	/**
 	 * 
+	 * Returns the Quantity
 	 * 
-	 * 
-	 * @return
+	 * @return Integer
 	 */
 	public synchronized Integer getQuantity() {
 		return quantity;
@@ -63,7 +66,7 @@ public abstract class Quote {
 
 	/**
 	 * 
-	 * 
+	 * Sets the Quantity
 	 * 
 	 * @param quantity
 	 */
@@ -73,9 +76,9 @@ public abstract class Quote {
 
 	/**
 	 * 
+	 * Returns the Price
 	 * 
-	 * 
-	 * @return
+	 * @return Double
 	 */
 	public synchronized Double getPrice() {
 		return price;
@@ -83,7 +86,7 @@ public abstract class Quote {
 
 	/**
 	 * 
-	 * 
+	 * Sets the Price
 	 * 
 	 * 
 	 * @param price
@@ -94,7 +97,10 @@ public abstract class Quote {
 
 	/**
 	 * 
+	 * Equals Method of this class
 	 * 
+	 * The Quote is equal only when the symbol, buy sell direction, price and the
+	 * quote id are same
 	 * 
 	 */
 	@Override
@@ -110,8 +116,10 @@ public abstract class Quote {
 
 	/**
 	 * 
+	 * Returns the hash Code of objects quote id, symbol, quantity, price, buySell
+	 * direction
 	 * 
-	 * 
+	 * @return Integer
 	 */
 	@Override
 	public int hashCode() {
@@ -120,11 +128,11 @@ public abstract class Quote {
 
 	/**
 	 * 
-	 * 
+	 * Returns the String representation of the Quote
 	 * 
 	 */
 	@Override
 	public String toString() {
-		return "[" + buySell() + "  " + quantity + "  " + symbol + " @ " + price + " on " + quoteId +" ]";
+		return "[" + buySell() + "  " + quantity + "  " + symbol + " @ " + price + " on " + quoteId + " ]";
 	}
 }

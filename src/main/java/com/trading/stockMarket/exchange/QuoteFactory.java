@@ -75,7 +75,7 @@ public class QuoteFactory {
 
 	/**
 	 * 
-	 * Returns Ask for a symbol with multiple unit prices for the same quantity
+	 * Returns Ask for a symbol with unit price and quantity
 	 * 
 	 * @param symbol
 	 * @param quantity

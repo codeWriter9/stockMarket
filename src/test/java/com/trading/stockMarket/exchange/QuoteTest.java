@@ -11,13 +11,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.LongAdder;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 
 public class QuoteTest {
 
 	/**
-	 * Checks whether quotes are equal to each other *
+	 * Checks whether quotes are equal to each other
 	 * 
 	 */
 	@Test
@@ -27,7 +26,7 @@ public class QuoteTest {
 	}
 
 	/**
-	 * Checks whether quotes are unequal to each other *
+	 * Checks whether quotes are unequal to each other
 	 * 
 	 */
 	@Test
@@ -43,7 +42,7 @@ public class QuoteTest {
 	}
 
 	/**
-	 * Checks whether quotes are unequal to each other *
+	 * Checks whether quotes are unequal to each other
 	 * 
 	 */
 	@Test
@@ -57,13 +56,13 @@ public class QuoteTest {
 	}
 
 	/**
-	 * Checks whether quotes are unequal to each other *
+	 * Checks whether quotes are unequal to each other
 	 * 
 	 */
 	@Test
 	public void checkAskAndBid() {
-		List<Quote> asks = Arrays.asList(new Quote[] {QuoteFactory.askOf("AAA", 1, 10.0)});
-		List<Quote> bids = Arrays.asList(new Quote[] {QuoteFactory.bidOf("AAA", 1, 10.0)});
+		List<Quote> asks = Arrays.asList(new Quote[] { QuoteFactory.askOf("AAA", 1, 10.0) });
+		List<Quote> bids = Arrays.asList(new Quote[] { QuoteFactory.bidOf("AAA", 1, 10.0) });
 		assertTrue(asks.size() == bids.size());
 	}
 
@@ -80,16 +79,27 @@ public class QuoteTest {
 		assertTrue(askAdder.intValue() == 6);
 	}
 
+	/**
+	 * 
+	 * 
+	 * 
+	 */
 	@Test
 	public void testAsksWhenUsingGenericMethod() {
-		List<Quote> asks = QuoteFactory.of("ASK", toArray("AAA"), toArray(1),
+		List<Quote> asks = QuoteFactory.of(Ask.name(), toArray("AAA"), toArray(1),
 				new double[][] { { 10.0, 10.0, 10.0 } });
 		asks.forEach((quote) -> assertTrue(quote.buySell().equals(SELL)));
 	}
 
+	/**
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
 	@Test
 	public void testBidsWhenUsingGenericMethod() {
-		List<Quote> asks = QuoteFactory.of("BID", toArray("AAA"), toArray(1),
+		List<Quote> asks = QuoteFactory.of(Bid.name(), toArray("AAA"), toArray(1),
 				new double[][] { { 10.0, 10.0, 10.0 } });
 		asks.forEach((quote) -> assertTrue(quote.buySell().equals(BUY)));
 	}

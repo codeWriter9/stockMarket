@@ -9,6 +9,14 @@ package com.trading.stockMarket.exchange;
  */
 public class Ask extends Quote {
 
+	/**
+	 * 
+	 * public constructor for Ask
+	 * 
+	 * @param symbol
+	 * @param quantity
+	 * @param price
+	 */
 	public Ask(String symbol, Integer quantity, Double price) {
 		super(symbol, quantity, price);
 	}
@@ -25,9 +33,9 @@ public class Ask extends Quote {
 	
 	/**
 	 * 
+	 * Returns BID
 	 * 
-	 * 
-	 * @return
+	 * @return String
 	 */
 	public static String name() {
 		return "ASK";

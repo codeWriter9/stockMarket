@@ -46,8 +46,9 @@ public class Order {
 	
 	/**
 	 * 
+	 * Returns the broker Id
 	 * 
-	 * @return
+	 * @return String
 	 */
 	public String brokerId() {
 		return brokerId;
@@ -58,7 +59,7 @@ public class Order {
 	 * Returns the list of quotes for symbol
 	 * 
 	 * @param symbol
-	 * @return
+	 * @return List<Quote>
 	 */
 	public List<Quote> quotesForSymbol(String symbol) {
 		return orders.get(symbol);

@@ -11,6 +11,7 @@ public class Bid extends Quote {
 	
 	/**
 	 * 
+	 * public constructor for Bid
 	 * 
 	 * @param symbol
 	 * @param quantity
@@ -22,6 +23,7 @@ public class Bid extends Quote {
 
 	/**
 	 * 
+	 * Returns the BuySell bid or Buy direction
 	 * 
 	 * @return BuySell.BUY
 	 */
@@ -32,8 +34,9 @@ public class Bid extends Quote {
 	
 	/**
 	 * 
+	 * Returns BID
 	 * 
-	 * @return
+	 * @return String
 	 */
 	public static String name() {
 		return "BID";
